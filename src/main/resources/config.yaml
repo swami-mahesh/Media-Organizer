@@ -1,0 +1,31 @@
+exifToolPath: "<PATH TO EXIF TOOL>"
+imageFileExtensions:
+  - "png"
+  - "gif"
+  - "jpg"
+  - "jpeg"
+  - "tiff"
+videoFileExtensions:
+  - "vob"
+  - "webm"
+  - "mkv"
+  - "wmv"
+  - "mpeg"
+  - "mpg"
+  - "flv"
+  - "mp4"
+  - "mts"
+  - "mov"
+  - "3gp"
+  - "avi"
+sourceDirectories:
+  - "<SOURCE DIRECTORY1>"
+  - "<SOURCE DIRECTORY2>"
+imageBackupDirectories:
+  - "<IMAGE DESTINATION DIRECTORY1>"
+  - "<IMAGE DESTINATION DIRECTORY2>"
+videoBackupDirectories:
+  - "<VIDEO DESTINATION DIRECTORY1>"
+  - "<VIDEO DESTINATION DIRECTORY2>"
+copyMode: 0
+overwriteMode: 1

@@ -1,8 +1,11 @@
 # Media-Organizer
 
+[![Build Status](https://travis-ci.org/swami-mahesh/Media-Organizer.svg?branch=master)](https://travis-ci.org/swami-mahesh/Media-Organizer)
+
  Media-Organizer is a library to organise your media ( Photos and videos ) better.
 
-    Have you ever felt frustrated with managing your media like millions of photos and media scattered across different storage mediums/ hard disks?<br/> Wouldn't it be good to have it organised automatically, <br/>grouped by date taken by inspecting the Image or Video file.
+Have you ever felt frustrated with managing your media like millions of photos and media scattered across different storage mediums/ hard disks?
+Wouldn't it be good to have it organised automatically, grouped by date taken by inspecting the Image or Video file.
 
 # Features!
   - Copy/Move Photos & Videos from Multiple Source folders at once.

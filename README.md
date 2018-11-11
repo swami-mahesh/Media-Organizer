@@ -2,7 +2,7 @@
 
  Media-Organizer is a library to organise your media ( Photos and videos ) better.
 
-    Have you ever felt frustrated with managing your media like millions of photos and media scattered across different storage mediums/ hard disks? Wouldn't it be good to have it organised automatically, grouped by date taken by inspecting the Image or Video file.
+    Have you ever felt frustrated with managing your media like millions of photos and media scattered across different storage mediums/ hard disks?<br/> Wouldn't it be good to have it organised automatically, <br/>grouped by date taken by inspecting the Image or Video file.
 
 # Features!
   - Copy/Move Photos & Videos from Multiple Source folders at once.
@@ -58,8 +58,8 @@ When building the MediaOrganizer object as mentioned in the example above, Follo
 | fromSource  | Absolute path to multiple source directories containing media which needs to be organized.   | Yes  |Empty |
 | saveImagesTo  | Absolute path to multiple destination directories which will have images organized.   | Yes  |Empty |
 | saveVideosTo  | Absolute path to multiple destination directories which will have videos organized.   | Yes  |Empty |
-| usingCopyMode  | "COPY" to copy media from source to destination folder<br/> "MOVE" to move media from source to destination folder. "COPY_DRY_RUN" to dry run copy (No actual copy) media from source to destination folder. "MOVE_DRY_RUN" to dry run move (No actual move) media from source to destination folder. | No  |COPY_DRY_RUN |
-| usingOverwriteMode  | In case if there is a file name conflict while copying/moving. FOllowing are the stratgies to chose from. "DO_NOT_OVERWRITE" if you dont want to overwrite files in destination directory. "DO_NOT_OVERWRITE_COPY"  if you dont want to overwrite files in destination directory but instead make a copy with unique name. "OVERWRITE_ONLY_IF_FILE_SIZE_MATCH_ELSE_COPY" if you want to overwrite the file if source & destination files have exactly the same SIZE else make a copy with unique name. "OVERWRITE_ONLY_IF_EXACT_SAME_FILE_ELSE_COPY" if you want to overwrite the file if source & destination files have exactly the same CONTENTS else make a copy with unique name. ALWAYS_OVERWRITE if you want to overwrite the file always. (Dangerous. Use with care !!!)| No  |DO_NOT_OVERWRITE |
+| usingCopyMode  | "COPY" to copy media from source to destination folder.<br/> "MOVE" to move media from source to destination folder.<br/> "COPY_DRY_RUN" to dry run copy (No actual copy) media from source to destination folder.<br/> "MOVE_DRY_RUN" to dry run move (No actual move) media from source to destination folder. | No  |COPY_DRY_RUN |
+| usingOverwriteMode  | In case if there is a file name conflict while copying/moving. Following are the stratgies to chose from.<br/> "DO_NOT_OVERWRITE" if you dont want to overwrite files in destination directory.<br/> "DO_NOT_OVERWRITE_COPY"  if you dont want to overwrite files in destination directory but instead make a copy with unique name.<br/> "OVERWRITE_ONLY_IF_FILE_SIZE_MATCH_ELSE_COPY" if you want to overwrite the file if source & destination files have exactly the same SIZE else make a copy with unique name.<br/> "OVERWRITE_ONLY_IF_EXACT_SAME_FILE_ELSE_COPY" if you want to overwrite the file if source & destination files have exactly the same CONTENTS else make a copy with unique name.<br/> ALWAYS_OVERWRITE if you want to overwrite the file always. (Dangerous. Use with care !!!)| No  |DO_NOT_OVERWRITE |
 | forImageFileExtensions  | Image File types in the source folders. Case Insensitive File extensions.  | No  | "png", "gif", "jpg","jpeg", "tiff"|
 | forVideoFileExtensions  | Video File types in the source folders. Case Insensitive File extensions.  | No  | "vob", "webm","mkv", "wmv", "mpeg", "mpg", "flv", "mp4", "mts", "mov", "3gp", "avi"|
 

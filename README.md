@@ -35,8 +35,8 @@ Following softwares are required to be installed on your machine.
 This library is available on maven repository:
 
     <dependency>
-        <groupId>com.mediaorganizer</groupId>
-        <artifactId>organizer</artifactId>
+        <groupId>com.github.swami-mahesh</groupId>
+        <artifactId>mediaorganizer</artifactId>
         <version>1.0</version>
     </dependency>
 
@@ -101,7 +101,7 @@ When running the CLI, Following parameters could be specified as below
 ### Sample application built using library
 A sample application using a Yaml file to specify the configuration is also included in the repo. It could be run as
 
-    java com.mediaorganizer.organizer.app.staticyaml.Application config.yaml
+    java com.github.swamim.media.examples.app.staticyaml.Application config.yaml
 A sample config.yaml is also available under resources in the github repo.
 
 ### What's next

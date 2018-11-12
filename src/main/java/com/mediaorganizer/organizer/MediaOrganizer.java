@@ -62,21 +62,16 @@ public class MediaOrganizer {
     }
 
     public void cancel() {
+        shutdownExecutor(mediaFileProcessor);
+        shutdownExecutor(monitorExecutor);
+    }
+
+    private void shutdownExecutor(ExecutorService mediaFileProcessor) {
         if (mediaFileProcessor != null) {
             mediaFileProcessor.shutdown();
             try {
                 if (mediaFileProcessor.awaitTermination(1000, TimeUnit.MILLISECONDS)) {
                     mediaFileProcessor.shutdownNow();
-                }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-        if (monitorExecutor != null) {
-            monitorExecutor.shutdown();
-            try {
-                if (monitorExecutor.awaitTermination(1000, TimeUnit.MILLISECONDS)) {
-                    monitorExecutor.shutdownNow();
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();

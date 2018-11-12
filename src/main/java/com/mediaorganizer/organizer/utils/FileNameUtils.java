@@ -23,7 +23,7 @@ public class FileNameUtils {
 
 
     public static String getNameForFileCopy(Path src) {
-        return getFileNameWithoutExtension(src.getFileName().toString()) + "_COPY_" + UUID.randomUUID().toString() +
+        return getFileNameWithoutExtension(src.getFileName().toString()) + "_COPY_" + UUID.randomUUID().toString() + "."+
                 getExtension(src.getFileName().toString());
     }
 }

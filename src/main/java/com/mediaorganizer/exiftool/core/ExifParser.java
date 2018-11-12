@@ -50,11 +50,13 @@ public class ExifParser {
     }
 
     public void shutdown() {
-        try {
-            exifTool.close();
-            logger.info("Exif Tool shut down");
-        } catch (Exception e) {
-            logger.error("Exception while shutting down Exif Tool!!!!", e);
+        if(exifTool != null) {
+            try {
+                exifTool.close();
+                logger.info("Exif Tool shut down");
+            } catch (Exception e) {
+                logger.error("Exception while shutting down Exif Tool!!!!", e);
+            }
         }
     }
 }

@@ -19,11 +19,11 @@ public class MediaOrganizerBuilder {
     private static final Logger logger = Logger.getLogger(MediaTask.class);
 
     private String exifToolPath;
-    private Set<String> imageFileExtensions = Sets.newHashSet("png", "gif", "jpg", "jpeg", "tiff");
-    private Set<String> videoFileExtensions = Sets.newHashSet("vob", "webm","mkv", "wmv", "mpeg", "mpg", "flv", "mp4", "mts", "mov", "3gp", "avi");
-    private Set<String> sourceDirectories = new HashSet<>();
-    private Set<String> targetImageDirectories = new HashSet<>();
-    private Set<String> targetVideoDirectories = new HashSet<>();
+    private final Set<String> imageFileExtensions = Sets.newHashSet("png", "gif", "jpg", "jpeg", "tiff");
+    private final Set<String> videoFileExtensions = Sets.newHashSet("vob", "webm","mkv", "wmv", "mpeg", "mpg", "flv", "mp4", "mts", "mov", "3gp", "avi");
+    private final Set<String> sourceDirectories = new HashSet<>();
+    private final Set<String> targetImageDirectories = new HashSet<>();
+    private final Set<String> targetVideoDirectories = new HashSet<>();
     private CopyMode copyMode = CopyMode.COPY_DRY_RUN;
     private OverwriteMode overwriteMode = OverwriteMode.DO_NOT_OVERWRITE;
 
@@ -97,20 +97,29 @@ public class MediaOrganizerBuilder {
         if (sourceDirectories.stream().map(Paths::get).filter(path -> !Files.exists(path)).count() > 0) {
             throw new IllegalArgumentException("At least one of the source directories does not exist." + sourceDirectories);
         }
+        if (sourceDirectories.stream().map(Paths::get).filter(path -> !path.toFile().isDirectory()).count() > 0) {
+            throw new IllegalArgumentException("Only directories allowed in fromSource() arguments." + sourceDirectories);
+        }
     }
 
     private void validateTargetDirectories() {
         if (targetImageDirectories.isEmpty()) {
             throw new IllegalArgumentException("At least one valid target image directory should be specified");
         }
+        if (targetImageDirectories.stream().map(Paths::get).filter(path -> !path.toFile().isDirectory()).count() > 0) {
+            throw new IllegalArgumentException("Only directories allowed in saveImagesTo() arguments" + targetImageDirectories);
+        }
         if (targetImageDirectories.stream().map(Paths::get).filter(path -> !Files.exists(path)).count() > 0) {
-            throw new IllegalArgumentException("At least one of the target image directories does not exist." + targetVideoDirectories);
+            throw new IllegalArgumentException("At least one of the target image directories does not exist." + targetImageDirectories);
         }
         if (targetVideoDirectories.isEmpty()) {
             throw new IllegalArgumentException("At least one valid target video directory should be specified");
         }
         if (targetVideoDirectories.stream().map(Paths::get).filter(path -> !Files.exists(path)).count() > 0) {
             throw new IllegalArgumentException("At least one of the target video directories does not exist." + targetVideoDirectories);
+        }
+        if (targetVideoDirectories.stream().map(Paths::get).filter(path -> !path.toFile().isDirectory()).count() > 0) {
+            throw new IllegalArgumentException("Only directories allowed  in saveVideosTo() arguments" + targetVideoDirectories);
         }
     }
 

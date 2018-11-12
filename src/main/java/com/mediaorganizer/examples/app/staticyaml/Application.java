@@ -1,4 +1,4 @@
-package com.mediaorganizer.organizer.app.staticyaml;
+package com.mediaorganizer.examples.app.staticyaml;
 
 import com.mediaorganizer.organizer.MediaOrganizer;
 import com.mediaorganizer.organizer.MediaOrganizerBuilder;

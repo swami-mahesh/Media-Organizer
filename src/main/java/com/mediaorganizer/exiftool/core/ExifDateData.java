@@ -7,20 +7,26 @@ import java.util.Date;
 public class ExifDateData {
     private static final String ZERO_DATE = "0000:00:00 00:00:00";
 
-    private String originalDate;
-    private String modifiedDate;
-    private String creationDate;
+    private final String originalDate;
+    private final String modifiedDate;
+    private final String creationDate;
 
 
     public ExifDateData(String originalDate, String modifiedDate, String creationDate) {
         if (originalDate != null && !ZERO_DATE.equals(originalDate.trim())) {
             this.originalDate = originalDate.substring(0, 10).replace(':', '-');
+        } else {
+            this.originalDate = originalDate;
         }
         if (modifiedDate != null && !ZERO_DATE.equals(modifiedDate.trim())) {
             this.modifiedDate = modifiedDate.substring(0, 10).replace(':', '-');
+        } else {
+            this.modifiedDate = modifiedDate;
         }
         if (creationDate != null && !ZERO_DATE.equals(creationDate.trim())) {
             this.creationDate = creationDate.substring(0, 10).replace(':', '-');
+        } else {
+            this.creationDate = creationDate;
         }
     }
 

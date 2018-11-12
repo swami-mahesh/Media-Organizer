@@ -6,6 +6,25 @@
     <artifactId>mediaorganizer</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <name>Media Organizer</name>
+    <description>Library to arrange your photos and videos</description>
+    <url>https://github.com/swami-mahesh/Media-Organizer</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Mahesh Swami</name>
+            <email>none@none.com</email>
+            <organizationUrl>https://github.com/swami-mahesh/Media-Organizer</organizationUrl>
+        </developer>
+    </developers>
 
     <dependencies>
         <dependency>

@@ -14,6 +14,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ *
+ * Media Organizer tool
+ *
+ */
 public class MediaOrganizerTool {
 
     private static Logger logger;

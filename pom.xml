@@ -173,7 +173,7 @@
             <id>release-sign-artifacts</id>
             <activation>
                 <property>
-                    <name>performRelease</name>
+                    <name>deploy</name>
                     <value>true</value>
                 </property>
             </activation>

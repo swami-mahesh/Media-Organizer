@@ -54,10 +54,10 @@
     </dependencies>
 
     <scm>
-        <connection>scm:git:git://github.com/swami-mahesh/Media-Organizer.git/tags/mediaorganizer-1.0</connection>
-        <developerConnection>scm:git:git@github.com:swami-mahesh/Media-Organizer.git/tags/mediaorganizer-1.0</developerConnection>
-        <url>https://github.com/swami-mahesh/Media-Organizer/tags/mediaorganizer-1.0</url>
-        <tag>mediaorganizer-1.0</tag>
+        <connection>scm:git:git://github.com/swami-mahesh/Media-Organizer.git</connection>
+        <developerConnection>scm:git:git@github.com:swami-mahesh/Media-Organizer.git</developerConnection>
+        <url>https://github.com/swami-mahesh/Media-Organizer</url>
+        <tag>HEAD</tag>
     </scm>
 
     <build>

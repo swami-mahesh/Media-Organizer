@@ -4,7 +4,7 @@
 
     <groupId>com.github.swami-mahesh</groupId>
     <artifactId>mediaorganizer</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
 
     <name>Media Organizer</name>
     <description>Library to arrange your photos and videos</description>
@@ -76,7 +76,7 @@
         <connection>scm:git:git://github.com/swami-mahesh/Media-Organizer.git</connection>
         <developerConnection>scm:git:git@github.com:swami-mahesh/Media-Organizer.git</developerConnection>
         <url>https://github.com/swami-mahesh/Media-Organizer</url>
-        <tag>mediaorganizer-1.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <build>

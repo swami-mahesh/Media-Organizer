@@ -61,12 +61,12 @@ Example :
 
 Short options
 
-    java com.mediaorganizer.examples.app.cli.MediaOrganizerTool -exif /usr/local/exiftool -from /home/user/pictures1 -from /tmp/pics_videos -imagesto /home/user/masterphotos -imagesto /tmp/anothermediabackup -videosto /home/user/mastervideos -videosto /tmp/anothermediabackup -c COPY_DRY_RUN -o OVERWRITE_ONLY_IF_EXACT_SAME_FILE_ELSE_COPY
+    java MediaOrganizerTool -exif /usr/local/exiftool -from /home/user/pictures1 -from /tmp/pics_videos -imagesto /home/user/masterphotos -imagesto /tmp/anothermediabackup -videosto /home/user/mastervideos -videosto /tmp/anothermediabackup -c COPY_DRY_RUN -o OVERWRITE_ONLY_IF_EXACT_SAME_FILE_ELSE_COPY
  
 
 Long Options
 
-    java com.mediaorganizer.examples.app.cli.MediaOrganizerTool --exiftoolpath /usr/local/exiftool --sourcedirectory /home/user/pictures1 --sourcedirectory /tmp/pics_videos --targetimagesdirectory /home/user/masterphotos --targetimagesdirectory /tmp/anothermediabackup --targetvideosdirectory /home/user/mastervideos --targetvideosdirectory /tmp/anothermediabackup --copymode COPY_DRY_RUN --overwrite OVERWRITE_ONLY_IF_EXACT_SAME_FILE_ELSE_COPY
+    java MediaOrganizerTool --exiftoolpath /usr/local/exiftool --sourcedirectory /home/user/pictures1 --sourcedirectory /tmp/pics_videos --targetimagesdirectory /home/user/masterphotos --targetimagesdirectory /tmp/anothermediabackup --targetvideosdirectory /home/user/mastervideos --targetvideosdirectory /tmp/anothermediabackup --copymode COPY_DRY_RUN --overwrite OVERWRITE_ONLY_IF_EXACT_SAME_FILE_ELSE_COPY
         
 ### Library : Configurable parameters
 When building the MediaOrganizer object as mentioned in the example above, Following parameters could be configured as below

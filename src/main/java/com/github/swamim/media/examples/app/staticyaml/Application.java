@@ -3,6 +3,7 @@ package com.github.swamim.media.examples.app.staticyaml;
 import com.github.swamim.media.organizer.MediaOrganizer;
 import com.github.swamim.media.organizer.MediaOrganizerBuilder;
 import com.github.swamim.media.organizer.config.YamlConfiguration;
+import com.github.swamim.media.organizer.utils.NamedThreadFactory;
 import org.apache.log4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -35,8 +36,10 @@ public class Application {
                 saveImagesTo(yamlConfiguration.getImageBackupDirectories().toArray(new String[yamlConfiguration.getImageBackupDirectories().size()])).
                 saveVideosTo(yamlConfiguration.getVideoBackupDirectories().toArray(new String[yamlConfiguration.getVideoBackupDirectories().size()])).
                 usingOverwriteMode(yamlConfiguration.getOverwriteMode()).
-                usingCopyMode(yamlConfiguration.getCopyMode());
+                usingCopyMode(yamlConfiguration.getCopyMode()).
+                withConcurrencyLevel(Runtime.getRuntime().availableProcessors()+1);
         mediaOrganizer = builder.build();
+        Runtime.getRuntime().addShutdownHook(new NamedThreadFactory("Shutdown Hook").newThread(mediaOrganizer::shutdown));
         mediaOrganizer.run();
     }
 

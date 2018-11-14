@@ -15,17 +15,19 @@ import static java.util.Arrays.asList;
 
 public class ExifParser {
     private static final Logger logger = Logger.getLogger(ExifParser.class);
+    private final int numInstances;
 
     private ExifTool exifTool;
 
-    public ExifParser(String exifToolPath) {
+    public ExifParser(String exifToolPath, int numInstances) {
         System.setProperty("exiftool.path", exifToolPath);
+        this.numInstances = numInstances;
     }
 
     public void init() {
         try {
             exifTool = new ExifToolBuilder()
-                    .withPoolSize(2 * Runtime.getRuntime().availableProcessors())
+                    .withPoolSize(numInstances)
                     .enableStayOpen()
                     .build();
         } catch (UnsupportedFeatureException ex) {
@@ -50,7 +52,7 @@ public class ExifParser {
     }
 
     public void shutdown() {
-        if(exifTool != null) {
+        if (exifTool != null) {
             try {
                 exifTool.close();
                 logger.info("Exif Tool shut down");

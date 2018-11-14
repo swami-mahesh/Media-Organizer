@@ -7,6 +7,8 @@ import java.io.File;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 
 class OrganizerConfiguration {
@@ -21,10 +23,13 @@ class OrganizerConfiguration {
     private final Set<String> targetVideoDirectories;
     private final CopyMode copyMode;
     private final OverwriteMode overwriteMode;
+    private final ExecutorService executorService;
+    private final boolean isSameThreadExecutor;
+
 
     OrganizerConfiguration(String exifToolPath, Set<String> imageFileExtensions, Set<String> videoFileExtensions,
                            Set<String> sourceDirectories, Set<String> targetImageDirectories, Set<String> targetVideoDirectories,
-                           CopyMode copyMode, OverwriteMode overwriteMode) {
+                           CopyMode copyMode, OverwriteMode overwriteMode, ExecutorService executorService, boolean isSameThreadExecutor) {
         this.exifToolPath = exifToolPath;
         this.imageFileExtensions = Collections.unmodifiableSet(new HashSet<>(imageFileExtensions));
         this.videoFileExtensions = Collections.unmodifiableSet(new HashSet<>(videoFileExtensions));
@@ -33,6 +38,8 @@ class OrganizerConfiguration {
         this.targetVideoDirectories = Collections.unmodifiableSet(new HashSet<>(targetVideoDirectories));
         this.copyMode = copyMode;
         this.overwriteMode = overwriteMode;
+        this.executorService = executorService;
+        this.isSameThreadExecutor = isSameThreadExecutor;
     }
 
     String getExifToolPath() {
@@ -65,6 +72,14 @@ class OrganizerConfiguration {
 
     OverwriteMode getOverwriteMode() {
         return overwriteMode;
+    }
+
+    ExecutorService getThreadPool() {
+        return executorService;
+    }
+
+    public boolean isSameThreadExecutor() {
+        return isSameThreadExecutor;
     }
 
     @Override

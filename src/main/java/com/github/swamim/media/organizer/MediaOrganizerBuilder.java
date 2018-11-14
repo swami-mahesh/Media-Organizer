@@ -1,8 +1,11 @@
 package com.github.swamim.media.organizer;
 
-import com.google.common.collect.Sets;
 import com.github.swamim.media.organizer.files.CopyMode;
 import com.github.swamim.media.organizer.files.OverwriteMode;
+import com.github.swamim.media.organizer.utils.NamedThreadFactory;
+import com.github.swamim.media.organizer.utils.UnManagedExecutorService;
+import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.thebuzzmedia.exiftool.ExifTool;
 import com.thebuzzmedia.exiftool.ExifToolBuilder;
 import org.apache.log4j.Logger;
@@ -13,6 +16,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MediaOrganizerBuilder {
 
@@ -20,12 +25,14 @@ public class MediaOrganizerBuilder {
 
     private String exifToolPath;
     private final Set<String> imageFileExtensions = Sets.newHashSet("png", "gif", "jpg", "jpeg", "tiff");
-    private final Set<String> videoFileExtensions = Sets.newHashSet("vob", "webm","mkv", "wmv", "mpeg", "mpg", "flv", "mp4", "mts", "mov", "3gp", "avi");
+    private final Set<String> videoFileExtensions = Sets.newHashSet("vob", "webm", "mkv", "wmv", "mpeg", "mpg", "flv", "mp4", "mts", "mov", "3gp", "avi");
     private final Set<String> sourceDirectories = new HashSet<>();
     private final Set<String> targetImageDirectories = new HashSet<>();
     private final Set<String> targetVideoDirectories = new HashSet<>();
     private CopyMode copyMode = CopyMode.COPY_DRY_RUN;
     private OverwriteMode overwriteMode = OverwriteMode.DO_NOT_OVERWRITE;
+    private ExecutorService executorService;
+    private int concurrencyLevel = -1;
 
     public MediaOrganizerBuilder usingExifTool(String exifToolPath) {
         this.exifToolPath = exifToolPath;
@@ -79,15 +86,47 @@ public class MediaOrganizerBuilder {
         return this;
     }
 
+    public MediaOrganizerBuilder withConcurrencyLevel(int concurrencyLevel) {
+        if (concurrencyLevel < 0) {
+            throw new IllegalArgumentException("concurrencyLevel " + concurrencyLevel + " cannot be less than 0");
+        }
+        this.concurrencyLevel = concurrencyLevel;
+        return this;
+    }
+
+    public MediaOrganizerBuilder usingExecutorService(ExecutorService executorService) {
+        Objects.requireNonNull(executorService);
+        this.executorService = executorService;
+        return this;
+    }
+
     public MediaOrganizer build() {
         validateSourceDirectories();
         validateTargetDirectories();
         validateExifTool();
+        boolean isSameThreadExecutor = executorService == null && concurrencyLevel == 0;
+        configureThreadPool();
         OrganizerConfiguration configuration = new OrganizerConfiguration(exifToolPath, imageFileExtensions, videoFileExtensions,
-                sourceDirectories, targetImageDirectories, targetVideoDirectories, copyMode, overwriteMode);
+                sourceDirectories, targetImageDirectories, targetVideoDirectories, copyMode, overwriteMode, executorService, isSameThreadExecutor);
         logger.info(configuration);
 
         return new MediaOrganizer(configuration);
+    }
+
+    private void configureThreadPool() {
+        if (concurrencyLevel > 0 && executorService != null) {
+            logger.info("You have specified both the concurrencyLevel= " + concurrencyLevel + " and an executorService. concurrencyLevel will be ignored and the executorService will be used for processing Media Organization in parallel.");
+        } else if (executorService == null) {
+            if (concurrencyLevel == 0) {
+                executorService = MoreExecutors.newDirectExecutorService();
+            } else if (concurrencyLevel > 0) {
+                executorService = Executors.newFixedThreadPool(concurrencyLevel, new NamedThreadFactory("Media-Processor"));
+            } else {
+                executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1, new NamedThreadFactory("Media-Processor"));
+            }
+        } else {
+            executorService = new UnManagedExecutorService(executorService);
+        }
     }
 
     private void validateSourceDirectories() {

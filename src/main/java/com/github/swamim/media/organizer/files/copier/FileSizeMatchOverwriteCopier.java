@@ -11,7 +11,7 @@ import static com.github.swamim.media.organizer.utils.FileNameUtils.getNameForFi
 public class FileSizeMatchOverwriteCopier extends AbstractCopier {
 
     @Override
-    protected OverwriteOperation overwriteOperation(Path src, Path dest, Path destDir) {
+    protected OverwriteDecision overwriteDecision(Path src, Path dest, Path destDir) {
         Path newDest = dest;
         String overwritePrefix = "";
         if (Files.exists(dest)) {
@@ -28,6 +28,6 @@ public class FileSizeMatchOverwriteCopier extends AbstractCopier {
                 overwritePrefix = "NOT OVERWRITE MAKE COPY ";
             }
         }
-        return new OverwriteOperation(true, newDest, overwritePrefix);
+        return new OverwriteDecision().to(newDest).withLogPrefix(overwritePrefix).proceed();
     }
 }

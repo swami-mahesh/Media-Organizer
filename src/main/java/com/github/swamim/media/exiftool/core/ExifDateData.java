@@ -4,8 +4,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * A class to hold various EXIF dates for a media file.
+ * It also provides a date based folder name in the to directory
+ * where this media file would be saved.
+ */
+
 public class ExifDateData {
     private static final String ZERO_DATE = "0000:00:00 00:00:00";
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     private final String originalDate;
     private final String modifiedDate;
@@ -31,7 +38,7 @@ public class ExifDateData {
     }
 
     public String getFolderName() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
 
         if (originalDate != null) {
             return originalDate;

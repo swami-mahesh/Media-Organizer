@@ -6,12 +6,10 @@ import java.nio.file.Path;
 public class NoOverwriteCopier extends AbstractCopier {
 
     @Override
-    protected OverwriteOperation overwriteOperation(Path src, Path dest, Path destDir) {
-        Path newDest = dest;
-        String overwritePrefix = "";
+    protected OverwriteDecision overwriteDecision(Path src, Path dest, Path destDir) {
         if (Files.exists(dest)) {
-            return new OverwriteOperation(false, newDest, overwritePrefix);
+            return new OverwriteDecision().to(dest).doNotProceed();
         }
-        return new OverwriteOperation(true, newDest, overwritePrefix);
+        return new OverwriteDecision().to(dest).proceed();
     }
 }

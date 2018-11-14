@@ -1,6 +1,5 @@
 package com.github.swamim.media.organizer;
 
-import com.github.swamim.media.organizer.utils.NamedThreadFactory;
 import com.github.swamim.media.exiftool.core.ExifParser;
 
 import java.io.File;
@@ -9,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -19,7 +18,6 @@ import static com.github.swamim.media.organizer.utils.FileNameUtils.getExtension
 
 public class MediaOrganizer {
     private final ExecutorService mediaFileProcessor;
-    private final ExecutorService monitorExecutor;
     private final ExifParser parser;
 
     private OrganizerConfiguration configuration;
@@ -27,14 +25,13 @@ public class MediaOrganizer {
 
     MediaOrganizer(OrganizerConfiguration configuration) {
         this.configuration = configuration;
-        this.mediaFileProcessor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors(), new NamedThreadFactory("Media Processor"));
-        this.monitorExecutor = Executors.newSingleThreadExecutor(new NamedThreadFactory("Task Monitor"));
-        this.parser = new ExifParser(configuration.getExifToolPath());
-        Runtime.getRuntime().addShutdownHook(new NamedThreadFactory("Shutdown Hook").newThread(this::shutdown));
+        this.mediaFileProcessor = configuration.getThreadPool();
+        int numExifToolInstances = configuration.isSameThreadExecutor() ? 1 : Runtime.getRuntime().availableProcessors()+1;
+        this.parser = new ExifParser(configuration.getExifToolPath(), numExifToolInstances);
     }
 
     public void run() {
-        this.taskMonitor = new TaskMonitor(this);
+        this.taskMonitor = new TaskMonitor(this, configuration.isSameThreadExecutor());
         parser.init();
         configuration.getSourceDirectories().stream().map(Paths::get).forEach(this::processSourceDirectory);
     }
@@ -45,7 +42,7 @@ public class MediaOrganizer {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
-            monitorExecutor.submit(taskMonitor);
+            ForkJoinPool.commonPool().submit(taskMonitor);
         }
     }
 
@@ -61,12 +58,7 @@ public class MediaOrganizer {
         };
     }
 
-    public void cancel() {
-        shutdownExecutor(mediaFileProcessor);
-        shutdownExecutor(monitorExecutor);
-    }
-
-    private void shutdownExecutor(ExecutorService mediaFileProcessor) {
+    void cancel() {
         if (mediaFileProcessor != null) {
             mediaFileProcessor.shutdown();
             try {
@@ -84,11 +76,11 @@ public class MediaOrganizer {
         return !file.isDirectory() &&
                 (
                         configuration.getVideoFileExtensions().contains(fileExtension) ||
-                        configuration.getImageFileExtensions().contains(fileExtension)
+                                configuration.getImageFileExtensions().contains(fileExtension)
                 );
     }
 
-    private void shutdown() {
+    public void shutdown() {
         if (parser != null) {
             parser.shutdown();
         }

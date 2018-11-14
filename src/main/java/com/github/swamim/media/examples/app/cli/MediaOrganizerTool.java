@@ -5,6 +5,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.github.swamim.media.organizer.MediaOrganizerBuilder;
 import com.github.swamim.media.organizer.files.CopyMode;
+import com.github.swamim.media.organizer.utils.NamedThreadFactory;
 import com.google.common.collect.Sets;
 import com.github.swamim.media.organizer.MediaOrganizer;
 import com.github.swamim.media.organizer.files.OverwriteMode;
@@ -55,11 +56,22 @@ public class MediaOrganizerTool {
     @Parameter(names = {"--videotype", "-vt"}, description = "Video File Extensions", order = 7)
     private Set<String> videoFileExtensions = Sets.newHashSet("vob", "webm", "mkv", "wmv", "mpeg", "mpg", "flv", "mp4", "mts", "mov", "3gp", "avi");
 
-    @Parameter(names = {"-h", "--help"}, help = true, order = 8)
+    @Parameter(names = {"--concurrencyLevel", "-p"}, description = "Concurrency Level", order = 8)
+    private int concurrencyLevel = Runtime.getRuntime().availableProcessors()+1;
+
+    @Parameter(names = {"-h", "--help"}, help = true, order = 9)
     private boolean help;
 
 
     public static void main(String... argv) {
+        argv = new String [] {
+                "-exif", "/usr/local/bin/exiftool",
+                "-from", "/Users/mswami/IdeaProjects/imagesrc1",
+                "-from", "/Users/mswami/IdeaProjects/imagesrc2",
+                "-imagesto", "/Users/mswami/IdeaProjects/imagedst",
+                "-videosto", "/Users/mswami/IdeaProjects/videodst",
+                "-p","5"
+        };
 
         MediaOrganizerTool main = new MediaOrganizerTool();
         JCommander commander = JCommander.newBuilder()
@@ -92,8 +104,10 @@ public class MediaOrganizerTool {
                     saveImagesTo(targetImageDirectories.toArray(new String[targetImageDirectories.size()])).
                     saveVideosTo(targetVideoDirectories.toArray(new String[targetVideoDirectories.size()])).
                     usingOverwriteMode(overwriteMode).
-                    usingCopyMode(copyMode);
+                    usingCopyMode(copyMode).
+                    withConcurrencyLevel(concurrencyLevel);
             organizer = builder.build();
+            Runtime.getRuntime().addShutdownHook(new NamedThreadFactory("Shutdown Hook").newThread(organizer::shutdown));
         } catch (RuntimeException re) {
             logger.error(re.getMessage());
             commander.usage();

@@ -9,9 +9,11 @@ public class TaskMonitor implements Runnable {
 
     private final AtomicLong queuedTasks = new AtomicLong(0);
     private final MediaOrganizer mediaOrganizer;
+    private final boolean skipMonitoring;
 
-    public TaskMonitor(MediaOrganizer mediaOrganizer) {
+    public TaskMonitor(MediaOrganizer mediaOrganizer, boolean skipMonitoring) {
         this.mediaOrganizer = mediaOrganizer;
+        this.skipMonitoring = skipMonitoring;
     }
 
     void push() {
@@ -24,6 +26,9 @@ public class TaskMonitor implements Runnable {
 
     @Override
     public void run() {
+        if(skipMonitoring) {
+            return;
+        }
         while(true) {
             if(queuedTasks.get() > 0) {
                 logger.info("queuedTasks remaining "+ queuedTasks.get());

@@ -2,15 +2,21 @@ package com.github.swamim.media.exiftool.core;
 
 import com.thebuzzmedia.exiftool.Tag;
 
+/**
+ * This class supports additional EXIF tags not supported by
+ * com.thebuzzmedia.exiftool.Tag
+ * Supported EXIF tags :
+ * 1. ModifyDate
+ */
 
 public enum CustomTag implements Tag {
 
-    MODIFIED_DATE("ModifyDate", MyType.STRING);
+    MODIFIED_DATE("ModifyDate", TagType.STRING);
 
     private final String name;
-    private final MyType type;
+    private final TagType type;
 
-    CustomTag(String name, MyType type) {
+    CustomTag(String name, TagType type) {
         this.name = name;
         this.type = type;
     }
@@ -23,26 +29,14 @@ public enum CustomTag implements Tag {
         return this.type.parse(value);
     }
 
-    static enum MyType {
-        INTEGER {
-            public <T> T parse(String value) {
-                return (T) Integer.valueOf(Integer.parseInt(value));
-            }
-        },
-        DOUBLE {
-            public <T> T parse(String value) {
-                return (T) Double.valueOf(Double.parseDouble(value));
-            }
-        },
+    enum TagType {
+
         STRING {
             public <T> T parse(String value) {
                 return (T) value;
             }
         };
 
-        private MyType() {
-        }
-
         public abstract <T> T parse(String var1);
-    }
+        }
 }

@@ -64,15 +64,6 @@ public class MediaOrganizerTool {
 
 
     public static void main(String... argv) {
-        argv = new String [] {
-                "-exif", "/usr/local/bin/exiftool",
-                "-from", "/Users/mswami/IdeaProjects/imagesrc1",
-                "-from", "/Users/mswami/IdeaProjects/imagesrc2",
-                "-imagesto", "/Users/mswami/IdeaProjects/imagedst",
-                "-videosto", "/Users/mswami/IdeaProjects/videodst",
-                "-p","5"
-        };
-
         MediaOrganizerTool main = new MediaOrganizerTool();
         JCommander commander = JCommander.newBuilder()
                 .addObject(main)

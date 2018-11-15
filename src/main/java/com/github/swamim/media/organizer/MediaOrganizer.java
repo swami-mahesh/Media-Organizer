@@ -50,9 +50,9 @@ public class MediaOrganizer {
         return path -> {
             String fileExtension = getExtension(path.toString()).toLowerCase();
             if (configuration.getVideoFileExtensions().contains(fileExtension)) {
-                new MediaTask(path, configuration, parser, configuration.getTargetVideoDirectories(), taskMonitor, mediaFileProcessor).run();
+                mediaFileProcessor.execute(new MediaTask(path, configuration, parser, configuration.getTargetVideoDirectories(), taskMonitor));
             } else {
-                new MediaTask(path, configuration, parser, configuration.getTargetImageDirectories(), taskMonitor, mediaFileProcessor).run();
+                mediaFileProcessor.execute(new MediaTask(path, configuration, parser, configuration.getTargetImageDirectories(), taskMonitor));
             }
             taskMonitor.push();
         };

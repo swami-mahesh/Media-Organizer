@@ -38,7 +38,7 @@ This library is available on maven repository:
     <dependency>
         <groupId>com.github.swami-mahesh</groupId>
         <artifactId>mediaorganizer</artifactId>
-        <version>1.0</version>
+        <version>1.1</version>
     </dependency>
 
 ### Library Usage
